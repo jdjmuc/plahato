@@ -4,12 +4,14 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.12.9"
 )
 
-lazy val web_components = Project(id = "plahato", base = file(".")).
+lazy val plahato = Project(id = "plahato", base = file(".")).
   settings(commonSettings: _*).
   settings(
     name := "plahato"
   )
 
+githubOwner := "jdjmuc"
+githubRepository := "plahato"
 
 // Scala XML
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
