@@ -20,7 +20,7 @@ import scala.util.Random
   * This trait handles loading content from a resource and providing this
   * to a template function.
   */
-trait ContentLoader[T] extends LogCapable with Results with ResourceLocator[T] {
+trait ContentLoader[T] extends BaseController with LogCapable with Results with ResourceLocator[T] {
 
   lazy val serverID = {
     val newVal = abs(Random.nextLong).toHexString

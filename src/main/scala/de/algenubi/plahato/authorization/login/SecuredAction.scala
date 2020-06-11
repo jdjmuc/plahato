@@ -1,17 +1,14 @@
 package de.algenubi.plahato.authorization.login
 
+import javax.inject.Inject
 import play.api.mvc._
 
 import scala.concurrent.Future
+import SecuredAction._
 
-object SecuredAction {
+trait SecuredAction extends BaseController {
 
-
-  val SESSIONKEY = "sessionKey"
-
-  val USER = "user"
-
-  def apply[A](validAction: Action[A])(invalidAction: Action[A]): Action[A] =
+  def secured[A](validAction: Action[A])(invalidAction: Action[A]): Action[A] =
     Action.async(validAction.parser) {
       request =>
         val session = request.session
@@ -26,6 +23,14 @@ object SecuredAction {
             invalidAction(request)
         }
     }
+
+}
+
+object SecuredAction {
+
+  val SESSIONKEY = "sessionKey"
+
+  val USER = "user"
 
 }
 

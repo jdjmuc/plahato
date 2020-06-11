@@ -10,7 +10,7 @@ import play.twirl.api.Html
 /**
   * Adds a login form to the application
   */
-trait LoginForm extends HeaderNames with play.api.i18n.I18nSupport {
+trait LoginForm extends BaseController with HeaderNames with play.api.i18n.I18nSupport {
 
   import play.api.data.Forms._
 

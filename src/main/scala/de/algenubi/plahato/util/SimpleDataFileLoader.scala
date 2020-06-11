@@ -1,20 +1,26 @@
 package de.algenubi.plahato.util
 
-import scala.util.Properties
-import org.apache.commons.io.FileUtils
 import java.io.File
+
+import org.apache.commons.io.FileUtils
+import play.api.Configuration
+import play.api.mvc.BaseController
+
 import scala.io.Source
-import play.api.Play
 
 /**
  * Loader of simple files, mainly for configuration
  */
-class SimpleDataFileLoader[T](basedirProperty: String) extends ResourceLocator[T] with LogCapable {
+trait SimpleDataFileLoader[T] extends BaseController with ResourceLocator[T] with LogCapable {
+
+  protected val configuration: Configuration
+
+  protected val basedirProperty: String
 
   /**
    * load basedir property and create directory if needed
    */
-  datafileLocation = Play.current.configuration.getString(basedirProperty)
+  datafileLocation = configuration.getOptional[String](basedirProperty)
 
   datafileLocation match {
     case Some(basedir) =>
