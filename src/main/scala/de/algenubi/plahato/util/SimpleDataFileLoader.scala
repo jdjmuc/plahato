@@ -9,24 +9,11 @@ import play.api.mvc.BaseController
 import scala.io.Source
 
 /**
- * Loader of simple files, mainly for configuration
+ * Loader of simple files, mainly for configuration.
+  *
+  * The implementation must define the datafileLocation
  */
-trait SimpleDataFileLoader[T] extends BaseController with ResourceLocator[T] with LogCapable {
-
-  protected val configuration: Configuration
-
-  protected val basedirProperty: String
-
-  /**
-   * load basedir property and create directory if needed
-   */
-  datafileLocation = configuration.getOptional[String](basedirProperty)
-
-  datafileLocation match {
-    case Some(basedir) =>
-      FileUtils.forceMkdir(new File(basedir))
-    case None => throw new IllegalStateException("Property " + basedirProperty + " not defined.")
-  }
+trait SimpleDataFileLoader[T] extends ResourceLocator[T] with LogCapable {
 
   /**
    * Loads a public data file from a relative path as defined in the config location, or
@@ -50,8 +37,8 @@ trait SimpleDataFileLoader[T] extends BaseController with ResourceLocator[T] wit
   }
 
   def getDataFile(path: String): File = {
-    if (datafileLocation == None) {
-      throw new IllegalStateException("Please define property " + basedirProperty)
+    if (datafileLocation.isEmpty) {
+      throw new IllegalStateException("dataFileLocation must be defined.")
     }
     new File(datafileLocation.get + "/" + path)
   }
