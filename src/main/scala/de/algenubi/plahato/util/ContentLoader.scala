@@ -41,8 +41,13 @@ trait ContentLoader[T] extends LogCapable with Results with ResourceLocator[T] {
 
   /**
     * load any type of content from source file and mix it with a template
+    *
+    * @param path                path to load
+    * @param prefix              fixed prefix for path
+    * @param extraContentForEtag extra content to include in the ETAG computation. This is needed to include invisible content, which
+    *                            is loaded later by means of javascript at the client side.
     */
-  def loadContent(path: String, prefix: String = ""): Action[AnyContent] = {
+  def loadContent(path: String, prefix: String = "", extraContentForEtag: String = ""): Action[AnyContent] = {
     Action {
 
       request =>
@@ -56,7 +61,7 @@ trait ContentLoader[T] extends LogCapable with Results with ResourceLocator[T] {
             val content = loadHtml(modPath, lang)
             val title = ContentLoader.getTitleFromPath(path)
             val html = template(title, content, lang)
-            val etag = Checksum.getChecksum(html)
+            val etag = Checksum.getChecksum(html + extraContentForEtag)
             if (optPrevEtag.isDefined && optPrevEtag.get == etag) {
               Result(ResponseHeader(304), HttpEntity.NoEntity)
             } else {
