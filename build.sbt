@@ -21,8 +21,8 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 
 // for Play libraries
-libraryDependencies += "com.typesafe.play" %% "play" % "2.7.1"
-libraryDependencies += "com.typesafe.play" %% "play-cache" % "2.7.1"
+libraryDependencies += "com.typesafe.play" %% "play" % "2.8.1"
+libraryDependencies += "com.typesafe.play" %% "play-cache" % "2.8.1"
 
 // for better I/O
 libraryDependencies += "commons-io" % "commons-io" % "2.5"

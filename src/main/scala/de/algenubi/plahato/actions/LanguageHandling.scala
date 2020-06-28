@@ -3,15 +3,14 @@ package de.algenubi.plahato.actions
 import de.algenubi.plahato.components.factories.LanguageFactory
 import de.algenubi.plahato.conf.SessionConfiguration.langProp
 import de.algenubi.plahato.util.LogCapable
-import play.api.mvc.{Action, Request}
-import play.api.mvc.Results.Redirect
+import play.api.mvc.{Action, AnyContent, BaseController, Request}
 
 /**
  * Trait with an action for handling languages
  */
-trait LanguageHandling extends LogCapable {
+trait LanguageHandling extends BaseController with LogCapable {
 
-  def setLanguage(lang: String) = Action {
+  def setLanguage(lang: String): Action[AnyContent] = Action {
     request =>
       var session = request.session
       if (session.data.contains(langProp)) {

@@ -1,26 +1,19 @@
 package de.algenubi.plahato.util
 
-import scala.util.Properties
-import org.apache.commons.io.FileUtils
 import java.io.File
+
+import org.apache.commons.io.FileUtils
+import play.api.Configuration
+import play.api.mvc.BaseController
+
 import scala.io.Source
-import play.api.Play
 
 /**
- * Loader of simple files, mainly for configuration
+ * Loader of simple files, mainly for configuration.
+  *
+  * The implementation must define the datafileLocation
  */
-class SimpleDataFileLoader[T](basedirProperty: String) extends ResourceLocator[T] with LogCapable {
-
-  /**
-   * load basedir property and create directory if needed
-   */
-  datafileLocation = Play.current.configuration.getString(basedirProperty)
-
-  datafileLocation match {
-    case Some(basedir) =>
-      FileUtils.forceMkdir(new File(basedir))
-    case None => throw new IllegalStateException("Property " + basedirProperty + " not defined.")
-  }
+trait SimpleDataFileLoader extends ResourceLocator with LogCapable {
 
   /**
    * Loads a public data file from a relative path as defined in the config location, or
@@ -44,8 +37,8 @@ class SimpleDataFileLoader[T](basedirProperty: String) extends ResourceLocator[T
   }
 
   def getDataFile(path: String): File = {
-    if (datafileLocation == None) {
-      throw new IllegalStateException("Please define property " + basedirProperty)
+    if (datafileLocation.isEmpty) {
+      throw new IllegalStateException("dataFileLocation must be defined.")
     }
     new File(datafileLocation.get + "/" + path)
   }

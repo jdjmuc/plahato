@@ -5,7 +5,4 @@ trait UserMap {
   def getUser(name: String): User
 
   def addUser(user: User)
-
-
-
 }
