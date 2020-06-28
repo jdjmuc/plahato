@@ -13,7 +13,7 @@ import scala.io.Source
   *
   * The implementation must define the datafileLocation
  */
-trait SimpleDataFileLoader[T] extends ResourceLocator[T] with LogCapable {
+trait SimpleDataFileLoader extends ResourceLocator with LogCapable {
 
   /**
    * Loads a public data file from a relative path as defined in the config location, or

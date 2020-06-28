@@ -1,16 +1,19 @@
 package de.algenubi.plahato.util
 
 import java.io.InputStream
+
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.io.FileInputStream
 
+import scala.reflect.ClassTag
+
 /**
  * Helper for locating a resource either in a classpath or in a specified location
  */
-trait ResourceLocator[T] {
+trait ResourceLocator {
 
-  val contentLocator: Class[T] = classOf[T]
+  protected val contentLocator: Class[_]
 
   /**
    * Configured specified location
