@@ -1,7 +1,7 @@
 lazy val commonSettings = Seq(
   organization := "de.algenubi",
-  version := "0.2.0",
-  scalaVersion := "2.12.9"
+  version := "0.2.1",
+  scalaVersion := "2.12.13"
 )
 
 lazy val plahato = Project(id = "plahato", base = file(".")).

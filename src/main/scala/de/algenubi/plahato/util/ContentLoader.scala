@@ -28,7 +28,12 @@ trait ContentLoader extends BaseController with LogCapable with Results with Res
     newVal
   }
 
-  var htmlTransformer: HtmlTransformer = new DefaultHtmlTransformer()
+  /**
+    * Transformers which can do some String replacements befor the final HTML code is produced.
+    *
+    * By default nothing is done here
+    */
+  val htmlTransformers: Seq[HtmlTransformer] = Seq.empty
 
   /**
     * Abstract function which needs to be filled by the template usage
@@ -112,7 +117,15 @@ trait ContentLoader extends BaseController with LogCapable with Results with Res
         if (!isDefLang) loadHtml(path) else
           Html("ERROR: no content found at " + modPath)
       case Some(stream) =>
-        Html(htmlTransformer.transform(Source.fromInputStream(stream).getLines() mkString ("\n")))
+        val streamContent = Source.fromInputStream(stream).getLines() mkString "\n"
+        Html(applyTransformers(streamContent))
+    }
+  }
+
+  private def applyTransformers(content: String, leftoverTransformers: Seq[HtmlTransformer] = htmlTransformers): String = {
+    leftoverTransformers.headOption match {
+      case Some(transformer) => applyTransformers(transformer.transform(content), leftoverTransformers.tail)
+      case None => content
     }
   }
 
